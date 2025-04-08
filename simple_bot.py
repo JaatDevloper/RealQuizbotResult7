@@ -1894,6 +1894,14 @@ async def handle_poll_to_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE
         reply_markup=reply_markup
     )
 
+async def handle_poll(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handler for when polls are sent to the bot"""
+    # Basic implementation to handle polls sent to your bot
+    message = update.effective_message
+    if message and message.poll:
+        # You could add logic here to do something with forwarded polls
+        pass
+
 async def handle_poll_to_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle selection of correct answer for poll to quiz conversion"""
     query = update.callback_query
