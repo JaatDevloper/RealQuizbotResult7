@@ -2307,7 +2307,7 @@ async def handle_poll_id_selection(update: Update, context: ContextTypes.DEFAULT
         # Set flag to wait for ID
         context.user_data["awaiting_poll_id"] = True
 
-async def end_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def show_final_results update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """End the quiz and display results"""
     quiz = context.user_data.get('quiz', {})
     
