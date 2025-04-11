@@ -2307,49 +2307,6 @@ async def handle_poll_id_selection(update: Update, context: ContextTypes.DEFAULT
         # Set flag to wait for ID
         context.user_data["awaiting_poll_id"] = True
 
-async def show_final_results(context: ContextTypes.DEFAULT_TYPE):
-    """Show final quiz results with a leaderboard sorted by score and time"""
-    # Get the chat ID from where we stored it
-    chat_id = context.user_data.get("marathon_chat_id")
-    
-    # If for some reason it's not there, we can't proceed
-    if not chat_id:
-        return
-    
-    # Get player data from wherever you're storing it
-    player_data = context.user_data.get("player_scores", {})
-    
-    # Sort players by score (descending) and time taken (ascending)
-    leaderboard = sorted(player_data.values(), key=lambda x: (-x["score"], x["time_taken"]))
-    
-    # Create the leaderboard message
-    text = f"🏁 *The quiz has finished!*\n\n"
-    total_questions = context.user_data.get("total_questions", 0)
-    text += f"{total_questions} questions answered\n\n"
-    
-    # Add each player to the leaderboard with appropriate medal
-    for i, player in enumerate(leaderboard, 1):
-        name = player['name']
-        score = player['score']
-        
-        # Format time nicely
-        time_sec = round(player['time_taken'], 1)
-        minutes = int(time_sec // 60)
-        seconds = time_sec % 60
-        time_str = f"{minutes} min {int(seconds)} sec" if minutes > 0 else f"{time_sec} sec"
-        
-        # Assign medals for top 3 positions
-        medal = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else f"{i}."
-        
-        # Add this player's entry to the leaderboard
-        text += f"{medal} {name} – {score} points ({time_str})\n"
-    
-    # Add congratulations message at the end
-    text += "\n🏆 Congratulations to the winner!"
-    
-    # Send the message
-    await context.bot.send_message(chat_id=chat_id, text=text, parse_mode="Markdown")
-
 async def end_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """End the quiz and display results"""
     quiz = context.user_data.get('quiz', {})
